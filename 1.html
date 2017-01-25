@@ -4,25 +4,65 @@
     <meta charset="UTF-8">
     <title>登录QQ邮箱</title>
     <style>
-        #xxxxx {
+        .inputOuter {
+            background: none;
+            border: 1px solid #96a5b4;
+
+            height: 38px;
+            width: 282px;
+
+        }
+        .block {
+            background: none;
+            border: 0px;
+
             height: 50px;
-            width: 30px;
-            color: #261a3b;
-            background-color: #528CE0;
-            font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
-    }
+            width: 282px;
+
+        }
+        .login_button {
+
+            height: 40px;
+
+            background-color: #5a98de;
+        }
+        .login_button .btn {
+            background: none;
+            height: 40px;
+            line-height: 39px;
+            font-size: 30px;
+            width: 100%;
+
+        }
+        .label {position: absolute;
+            top: 13px;
+            left: 13px;
+            font-size: 14px;
+            line-height: 16px;
+            color: #aaa;
+            cursor: text;
+        }
+
     </style>
 
 </head>
 <body>
+<div class="block"></div>
 <form>
-<fieldset style="float:left;height: 200px;line-height: 30px;border-color: #0000FF;background-color:#f0f8ff">
+<fieldset style="float:right;height: 387px;width: 334px;border-color: #0000FF;background-color:#f0f8ff">
     <legend style="align:auto">登录QQ邮箱</legend>
-        账号：<br>
-        <input type="text";name="account" title="xxx" ><br>
-        密码：<br>
-        <input type="password";name="password"><br>
+    <div class="block"></div><br>
+    <div style="position: relative;">
+        <label class="label" onclick="this.style.display='none'">支持qq账号/邮箱</label>
+    <input type="text" name="account" class="inputOuter"><br><br></div>
+    <div style="position: relative">
+        <label class="label" onclick="this.style.display='none'">qq密码</label>
+        <input type="password";name="password" class="inputOuter" ><br></div>
+
     <table border="0"; cellspacing="0"><tr><td> &nbsp</td></tr> </table>
-        <input type="submit"; value="登录"; style="height: 30px;width: 100px; background-color: whitesmoke;border: none">
+    <input type="checkbox">下次自动登录<br>
+    <div class="login_button" >
+    <button type="submit" class="btn" id="login_button"  >登录</button></div>
     </fieldset>
     </form>
+</body>

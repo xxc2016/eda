@@ -6,50 +6,98 @@
 </head>
 <script language="JavaScript" type="text/javascript">
     <!--
-            function inputer(number) {
+            function inputer(str) {
                 var obj=document.getElementsByName("txt1");
-                var x= new Array();
-                var y,i=0,flag=0;
-
-                if(number=="+") {
-                    y=number;
-                    flag=1;
-                    i++;
-
-                }
-                if(number=="=") {
-                    switch(y) {
-                        case '+':
-                            x[0] = x[1] + x[0];
-                            obj[0].value = x[0];
-                            i=0;
-                            break;
+                var obe=document.getElementsByName('txt2');
+                var slo=document.getElementsByName("slo");
+                var flag=isNaN(str);
+                if(!flag) {
+                    if (obe[0].num==1){
+                     dele();obe[0].num=0;
                     }
+                    if (obj[0].value == '0')
+                        obj[0].value = str;
+                    else
+                        obj[0].value += str;
                 }
-
-                if(obj[0].value=='0')
-                    obj[0].value=number;
-                else
-                    obj[0].value+=number;
-                if(flag==0)
-                    x[i] = obj[0].value;
-                else {
-                    history(obj[0].value);
-                    alert(x[0]);
-                    dele();
-                    flag=0;
-                }alert(x[i]);
+                else if(str=='=') {
+                        equal();
+                        obe[0].num = 1;
+                }
+                else if(str=='+'){
+                    if (obe[0].num==1)
+                        obe[0].num=0;
+                    equal();
+                    slo[0].num = 1;
+                    calc(str);
+                }
+                else if(str=='-'){
+                    if (obe[0].num==1)
+                        obe[0].num=0;
+                    equal();
+                    slo[1].num=2;
+                    calc(str);
+                }
+                else if(str=='*'){
+                    if (obe[0].num==1)
+                        obe[0].num=0;
+                    equal();
+                    slo[2].num=3;
+                    calc(str);
+                }
+                else if(str=="/"){
+                    if (obe[0].num==1)
+                        obe[0].num=0;
+                    equal();
+                    slo[3].num=4;
+                    calc(str);
+                }
             }
             function history(str) {
                 var obj=document.getElementsByName("txt2");
                 obj[0].value=str;
             }
             function dele() {
-                var obj=document.getElementsByName("txt1");
-                obj[0].value=0;
+                var obj = document.getElementsByName("txt1");
+                obj[0].value = 0;
+                var obe = document.getElementsByName('txt2');
+                obe[0].value = 0;
+                obj[0].num = 0;
             }
             function calc(str) {
+                var obj=document.getElementsByName("txt1");
+                obj[0].num=obj[0].value;
+                obj[0].value+=str;
+                history(obj[0].value);
+                obj[0].value = 0;
+            }
+            function equal() {
+                var b,a;
+                var obj=document.getElementsByName("txt1");
+                var slo=document.getElementsByName("slo");
+                for (b in slo){
+                    if(slo[b].num==1){
+                        a=(Number)(obj[0].value);
+                        obj[0].value=a + (Number)(obj[0].num);
+                        slo[b].num=0;
+                    }
+                    if(slo[b].num==2){
+                        a=(Number)(obj[0].value);
+                        obj[0].value=(Number)(obj[0].num) - a;
+                        slo[b].num=0;
+                    }
+                    if(slo[b].num==3){
+                        a=(Number)(obj[0].value);
+                        obj[0].value=(Number)(obj[0].num) * a ;
+                        slo[b].num=0;
+                    }
+                    if(slo[b].num==4){
+                        a=(Number)(obj[0].value);
+                        obj[0].value=(Number)(obj[0].num) / a;
+                        slo[b].num=0;
+                    }
 
+                }
             }
             -->
 </script>
@@ -84,8 +132,8 @@
 <div style="padding: 1px 1px; width:400px; background:grey; border: 2px solid dimgray; padding-bottom: 10px;">
             <div>
                 <table class="block" border="1" >
-                    <tr style="height: 43px;"><td><input type="text" class="inputOuter" readonly="readonly" value="" name="txt2"></td></tr>
-                    <tr><td><input type="text" class="inputOuter" readonly="readonly" value="0" name="txt1"></td></tr>
+                    <tr style="height: 43px;"><td><input type="text" class="inputOuter" readonly="readonly" value="0" name="txt2" num=""></td></tr>
+                    <tr><td><input type="text" class="inputOuter" readonly="readonly" value="0" name="txt1" num="0"></td></tr>
                 </table>
             </div>
             <div style="margin: 2px 5px 6px 1px; width:100%">
@@ -93,18 +141,18 @@
                     <tr><td><button class="login_button" value="1" onclick="inputer(this.value)">1</button></td>
                         <td><button class="login_button" value="2" onclick="inputer(this.value)">2</button></td>
                         <td><button class="login_button" value="3" onclick="inputer(this.value)">3</button></td>
-                        <td><button class="login_button" value="+" onclick="inputer(this.value)">+</button></td></tr>
+                        <td><button class="login_button" value="+" onclick="inputer(this.value)" num="0" name="slo">+</button></td></tr>
                     <tr><td><button class="login_button" value="4" onclick="inputer(this.value)">4</button></td>
                         <td><button class="login_button" value="5" onclick="inputer(this.value)">5</button></td>
                         <td><button class="login_button" value="6" onclick="inputer(this.value)">6</button></td>
-                        <td><button class="login_button" value="-" onclick="inputer(this.value)">-</button></td></tr>
+                        <td><button class="login_button" value="-" onclick="inputer(this.value)" num="0" name="slo">-</button></td></tr>
                     <tr><td><button class="login_button" value="7" onclick="inputer(this.value)">7</button></td>
                         <td><button class="login_button" value="8" onclick="inputer(this.value)">8</button></td>
                         <td><button class="login_button" value="9" onclick="inputer(this.value)">9</button></td>
-                        <td><button class="login_button" value="*" onclick="inputer(this.value)">*</button></td></tr>
+                        <td><button class="login_button" value="*" onclick="inputer(this.value)" num="0" name="slo">*</button></td></tr>
                     <tr><td><button class="login_button" value="." onclick="inputer(this.value)">.</button></td>
                         <th colspan="2"><button class="login_button" style="width: 190px;" value="0" onclick="inputer(this.value)">0</button></th>
-                        <td><button class="login_button" value="/" onclick="inputer(this.value)">/</button></td></tr>
+                        <td><button class="login_button" value="/" onclick="inputer(this.value)" num="0" name="slo">/</button></td></tr>
                     <tr><td><button class="login_button" value="" onclick="dele()">del</button> </td>
                         <td><button class="login_button"  type="submit" value="=" onclick="inputer(this.value)">=</button></td>
                         <td><button class="login_button" value="" onclick="inputer(this.value)">sqrt</button> </td>

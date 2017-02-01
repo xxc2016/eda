@@ -45,21 +45,37 @@
         }
 
     </style>
-
 </head>
+<script language="JavaScript" type="text/javascript">
+    <!--
+    function inputer1(str) {
+        var a=document.getElementsByName(str);
+        a[0].style.display='none';
+    }
+    function inputer2(str) {
+        var a=document.getElementsByName(str);
+        a[0].style.display='block';
+    }
+    -->
+</script>
 <body>
 <div style="height: 50px; width: 100%; background:lightskyblue;color: white;margin-bottom: 80px; ">
     <p style="margin-bottom: 1px;font-size: 25px">QQ邮箱</p>qq mail</div>
 <form>
 <fieldset style="margin-right:200px;float:right;height: 387px;width: 334px;background-color:#f0f8ff; border: 1px solid #0000FF">
 
-    <div class="block"></div><hr style="color:#0000FF"/><br>
+    <div class="block">
+        <div style="margin-top: 7px; margin-left: 20px; color: #0000FF; font-size: 20px; float: left">
+            <a href=" " style="text-decoration: none;">帐号密码登录</a></div>
+        <div style="margin-top: 7px; margin-right: 20px; color: #0000FF; font-size: 20px; float: right">
+            <a href=" " style="text-decoration: none;">快捷登录</a></div>
+    </div><hr style="color:#0000FF"/><br>
     <div style="position: relative;">
-        <label class="label" onclick="this.style.display='none'">支持qq账号/邮箱</label>
-    <input type="text" name="account" class="inputOuter"><br><br></div>
+        <label class="label" name='txt1'>支持qq账号/邮箱</label>
+    <input type="text" name="account" class="inputOuter" onfocus="inputer1('txt1')" onblur="inputer2('txt1')"><br><br></div>
     <div style="position: relative">
-        <label class="label" onclick="this.style.display='none'">qq密码</label>
-        <input type="password";name="password" class="inputOuter" ><br></div>
+        <label class="label" name="txt2">qq密码</label>
+        <input type="password" name="password" class="inputOuter" onclick="inputer1('txt2')" onblur="inputer2('txt2')"><br></div>
 
     <table border="0"; cellspacing="0"><tr><td> &nbsp</td></tr> </table>
     <input type="checkbox">下次自动登录<br>
@@ -77,5 +93,5 @@
     ——马丁·路德·金<br>
     插画来自丑丑(两岁)</div>
 <div style=" margin: 100px 0 0 30%; padding-top: 50px"><img src="tg-silence1e9c5d.jpg" height="329" width="294"/></div>
-
+<div style="float: none; background:lightblue; margin-top: 90px; height: 30px; width: 100%; ">感谢</div>
 </body>

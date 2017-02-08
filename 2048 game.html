@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2048 game</title>
+    <style>
+        .in {
+            background: darkgray;
+            font-size: 50px;
+            height: 90px;
+            width: 100px;
+        }
+        .inputOuter.in2{
+            background: whitesmoke;
+        }
+        .inputOuter.in4{
+            background: sandybrown;
+        }
+        .inputOuter.in8{
+            background: yellow;
+        }
+        .inputOuter.in16{
+            background: indianred;
+        }
+        .inputOuter.in32{
+            background: orangered;
+        }
+        .inputOuter.in64{
+            background: red;
+        }
+        .inputOuter.in128{
+            background: yellowgreen;
+        }
+        .inputOuter.in256{
+            background: yellowgreen;
+        }
+        .inputOuter.in512{
+            background: gold;
+        }
+        .inputOuter.in1024{
+            background: goldenrod;
+        }
+        .inputOuter.in2048{
+            background: blueviolet;
+        }
+        .tab{
+            background: none;
+            padding-left: 10px;
+            font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+            color: grey;
+            font-size: 50px;
+
+        }
+        .inputOuter{
+            height: 99%;
+            width: 99%;
+            font-size: 50px;
+            color: brown;
+            font-family: "Lucida Grande", "Helvetica Nueue", Arial, sans-serif;
+            text-align: center;
+            background: whitesmoke;
+            position: relative;
+
+        }
+    </style>
+    <script type="text/javascript" language="JavaScript">
+        var flag=0;
+        function into(val) {
+            var inputer=document.createElement('input');
+            inputer.type='text';
+            inputer.className='inputOuter in'+val;
+            inputer.setAttribute("readonly","readonly");
+            inputer.style.align='center';
+            inputer.value=val;
+            inputer.setAttribute('a','0');
+            return inputer;
+        }
+        function create() {
+            var inputer=into(Math.random()<0.8?2:4);
+            var obj = document.getElementsByClassName('in');
+            var a,b;
+            do {
+                a = Math.random();
+                b = Math.round(a * 15);
+            } while (obj[b].content == 1);
+            obj[b].appendChild(inputer);
+            obj[b].content = 1;
+
+        }
+        function direction() {
+            var dir = window.event.keyCode;
+            if (dir == 37 || dir == 38 || dir == 39 || dir == 40) {
+                var inputs = document.getElementsByClassName('inputOuter');
+                var obj = document.getElementsByClassName('in');
+                if (dir == 38) {
+                    for (var i = 4; i < 16; i++) {
+                        var j = i;
+                        while (obj[j].content == 1 && j >= 4 && obj[j - 4].content != 1) {
+                            move(obj[j], obj[j - 4]);
+                            j -= 4;
+                        }
+                        if (j >= 4 && obj[j - 4].content == 1 && obj[j].content == 1)
+                            calc(obj[j], obj[j - 4]);
+                    }
+                }
+                if (dir == 37) {
+                    for (var i = 1; i < 16; i++) {
+                        var j = i;
+                        while (obj[j].content == 1 && j % 4 != 0 && obj[j - 1].content != 1) {
+                            move(obj[j], obj[j - 1]);
+                            j -= 1;
+                        }
+                        if (j % 4 != 0 && obj[j - 1].content == 1 && obj[j].content == 1)
+                            calc(obj[j], obj[j - 1]);
+                    }
+                }
+                if (dir == 39) {
+                    for (var i = 14; i >= 0; i--) {
+                        var j = i;
+                        while (obj[j].content == 1 && j % 4 != 3 && obj[j + 1].content != 1) {
+                            move(obj[j], obj[j + 1]);
+                            j += 1;
+                        }
+                        if (j % 4 != 3 && obj[j + 1].content == 1 && obj[j].content == 1)
+                            calc(obj[j], obj[j + 1]);
+                    }
+                }
+                if (dir == 40) {
+                    for (var i = 11; i >= 0; i--) {
+                        var j = i;
+                        while (obj[j].content == 1 && j < 12 && obj[j + 4].content != 1) {
+                            move(obj[j], obj[j + 4]);
+                            j += 4;
+                        }
+                        if (j < 12 && obj[j + 4].content == 1 && obj[j].content == 1)
+                            calc(obj[j], obj[j + 4]);
+                    }
+                }
+                if (over()) {
+                    window.confirm("Game over!");
+                }
+                if (flag) {
+                    setTimeout('create()', 100);
+                    flag = 0;
+                }
+                var x;
+                for(x in inputs)
+                    inputs[x].a=0;
+            }
+        }
+        function move(targetFrom,targetTo) {
+            var inputFrom=targetFrom.getElementsByClassName('inputOuter');
+            var inputerTo=into(inputFrom[0].value);
+            targetTo.appendChild(inputerTo);
+            targetTo.content=1;
+            targetFrom.removeChild(inputFrom[0]);
+            targetFrom.content=0;
+            flag=1;
+        }
+        function calc(targetFrom,targetTo) {
+            var inputFrom=targetFrom.getElementsByClassName('inputOuter');
+            var inputTo=targetTo.getElementsByClassName('inputOuter');
+            if(inputFrom[0].a!=1) {
+                if (inputFrom[0].value == inputTo[0].value) {
+                    inputTo[0].value *= 2;
+                    inputTo[0].className = 'inputOuter in' + inputTo[0].value;
+                    inputTo[0].a = 1;
+                    targetFrom.removeChild(inputFrom[0]);
+                    targetFrom.content = 0;
+                    flag = 1;
+                }
+            }
+        }
+        function over(){
+            var tiles=document.getElementsByClassName('in');
+            for(var i = 0; i < 16; i++){
+                if(tiles[i].content != 1){
+                    return false;
+                }
+            }
+            for(var x=0;x<16;x++) {
+                if (x % 4 != 3) {
+                    var a = tiles[x].getElementsByClassName('inputOuter');
+                    var b = tiles[x + 1].getElementsByClassName('inputOuter');
+                    if (a[0].value == b[0].value) {
+                        return false;
+                    }
+                }
+                if (x < 12) {
+                    var a = tiles[x].getElementsByClassName('inputOuter');
+                    var b = tiles[x + 4].getElementsByClassName('inputOuter');
+                    if (a[0].value == b[0].value) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        document.onkeydown=direction;
+    </script>
+</head>
+<body onload="create();create();">
+
+<table style="width: 400px;"><tr><td class="tab" style="letter-spacing: 5px"><strong>2048</strong></td></tr>
+        <tr><td style="font-size: 10px; padding-top: 1px" class="tab">
+            <strong>Play 2048 Game Online</strong><br>Join the contentbers and get to the 2048 tile!</td></tr>
+</table>
+<div style="background:grey; width: 400px; position: relative">
+    <table border="0" cellspacing="8" style="height: 400px; width: 400px;">
+        <tr><td class="in" content="0"></td><td class="in" content="0"></td><td class="in" content="0"></td><td class="in" content="0"></td></tr>
+        <tr><td class="in" content="0"></td><td class="in" content="0"></td><td class="in" content="0" ></td><td class="in" content="0" ></td></tr>
+        <tr><td class="in" content="0" ></td><td class="in" content="0"></td><td class="in" content="0" ></td><td class="in" content="0" ></td></tr>
+        <tr><td class="in" content="0"></td><td class="in" content="0" ></td><td class="in" content="0" ></td><td class="in" content="0" ></td></tr></table>
+</div>
+</body>
+</html>

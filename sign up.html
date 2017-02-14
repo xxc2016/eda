@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login in</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js " language="JavaScript"></script>
+    <script>
+        function p() {
+            var data = {};
+            data.username=(document.getElementsByName("username"))[0].value;
+            data.password=$(":password").val();
+            data.email=$(":input[name='email']").val();
+            $("#res1").text('');
+            $("#res2").text('');
+            $("#res3").text('');
+            if(data.password.length<5) {
+                $("#res2").text("密码长度应大于4");
+            }
+            else if (!/\w+@\w+\.\w+/.test(data.email)) {
+                $("#res3").text("邮箱不符合格式");
+            }
+            else {
+                if (/^[A-Z][a-zA-Z0-9]{5,12}$/.test(data.username)) {
+                    $.ajax("http://localhost:3000", {
+                        type: "POST",
+                        data: data,
+                        dataType: "text",
+                        success: function (response) {
+                            var regun = /username=[A-Z][a-zA-Z0-9]{5,12}/.exec(response);
+                            var regpw = /password=\w+/.exec(response);
+                            var regmail = /email=\w+%40\w+\.\w+/.exec(response);
+                            $("#result").text("注册成功:" + regun[0] + "\n" + regpw[0] + "\n" + regmail[0]);
+                        },
+                        error: function () {
+                            $("#result").text("注册失败");
+                        }
+                    });
+                }
+                else {
+                    if (/^[a-z][a-zA-Z0-9]{5,12}$/.test(data.username))
+                        $("#res1").text("首字母未大写");
+                    else
+                        $("#res1").text("字数不合5-12");
+                }
+            }
+        }
+    </script>
+    <style>
+        fieldset div{
+            margin-top: 10px;
+            line-height: 1.4em;
+        }
+        .inputOuter{
+            background:orange;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 5px;
+            width:70%;
+            height: 2em;
+            margin-bottom: 20px
+        }
+        .btn{
+            background:none;
+            border: none;
+            height: 2em;
+            width: 100%
+        }
+    </style>
+</head>
+<body>
+<div>
+        <fieldset style="width: 400px; padding-left: 30px;" ><legend>注册表单</legend>
+        <form action="http://localhost:3000" method="post">
+                <div>
+                <label style="letter-spacing: 0.5em;">用户名</label><br>
+                <input type="text" name="username" value="" placeholder="请输入用户名" id="username"><label id="res1"></label>
+                </div><div>
+                <label>密　　码</label><br>
+                <input type="password" name="password" value="" placeholder="请输入密码" id="password"><label id="res2"></label>
+                </div><div>
+                <label>注册邮箱</label><br>
+                <input type="email" name="email" value="" placeholder="请输入密码" id="email"><label id="res3"></label>
+                </div>
+                <div class="inputOuter">
+                <input type="submit" name="submit" value="跳　转" class="btn">
+                </div>
+        </form>
+            <div class="inputOuter"><button onclick="p()" class="btn">ajax提交</button></div>
+            <b id="result"></b>
+        </fieldset>
+    </div>
+</body>
+</html>
